@@ -384,3 +384,67 @@ function changeBg(imgUrl) {
     }
   })
 }
+
+//처음 화면에 들어오기 전 기본 스티키sticky 이미지를 1번으로 세팅
+changeBg(`asset/info01.png`);
+
+const pinBg = document.getAnimations('pin_bg');
+const photos =  gsap.utils.toArray('.photo');
+
+//showcase섹션은 화면을 고정한 상태에서 사진들이 차례대로 올라온다.
+const pinTl = gsap.timeline({
+  scrollTrigger : {
+    trigger:'.pin_scene',
+start:'top top',
+//1800px스크롤 하는 동안에 타임 라인이 진행 되는 것
+end: '=+1800',
+//섹션을 화면에 고정해서 사진이 올라오는 무대를 만든다.
+pin :true,
+//스크롤 위치와 애니메이션 진행도를 연결할것임
+scrud:true,
+// pin이 시작될 때 생길 수 있는 튐을 줄인다.
+    anticipatePin: 1,
+    // 새로고침이나 리사이즈 때 값을 다시 계산한다.
+    invalidateOnRefresh: true,
+    // 내려갈 때만 재생하고, 다시 위에서 진입하면 초기화한다.
+    toggleActions: 'play none none reset',
+  }
+});
+
+
+//배경 이미지를 살짝 흐리고 키워서 뒤로 밀리는 느낌을 만든다.
+pinTl.to(pinBg, {tilter:'blur:12px',scale:1.06, duration:1, ease:'none'},0);
+
+//사진마다 살짝 다른 각도와 
+photo.forEach(photo,index) => {
+  //사진이 등장하기 직전에 레이어 순서와 클리지 클래스를 조정
+  pinTl.add(()=>{
+    //누에 나온 사진이 앞쪽에 쌒이도록 z-index
+    photo.style.zIndex = String(100+index);
+    photo.classList.add('glitch');
+    //0.4초 뒤에 글리치 클래스를 제거 해 효과를 끝낸다
+    gsap.delayedCall(0.4,()=>photo.classList.remove('glitch'));
+index *0.22;
+
+    pinTl.fromeTo(photo,{
+      opacity:0,
+      yL1080,
+      scale:0.4,
+      fitter:'blur(6px)'
+      rotate: (index % 2) ? 4 : -4,
+    }, {
+       opacity:1,
+      yL1080,
+      scale:1,
+      fitter:'blur(0px)'
+      rotate: (index % 2) ? 5 : -5,
+      duration:0.85,
+      //빠르게 올라오고 부드럽게 멈춤
+      ease: 'power3.out',
+      index *0.22;
+    })
+  })
+}
+
+// 사진 묶음 전체를 마지막에 조금 위로 올려 장면이 마무리되는 느낌을 준다.
+pinTl.to('.float_wrap', { yPercent: -6, duration: 0.8, ease: 'none' }, '>0.1');
