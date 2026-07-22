@@ -299,19 +299,19 @@ gsap.from('.feature_card .motion_word', {
 });
 
 //카드 위에 마우스를 올리면 빛이 따라다니는 것처럼 보이는 레이어를 만든다
-document.querySelectorAll('.feature_card').forEach((card)=>{
+document.querySelectorAll('.feature_card').forEach((card) => {
   const glass = document.createElement('div');
   glass.className = 'glass_reflect';
   card.appendChild(glass);
 
   //카드 위에서 마우스가 움직일때마다 빛 위치를 바꾼다
-  card.addEventListener('mousemove',(e)=>{
+  card.addEventListener('mousemove', (e) => {
     //카드의 화면 위치와 크기를 가져온다
     const rect = card.getBoundingClientRect();
     //마우스 x좌표를 카드 안쪽 기준으로 바꾼다
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-        // 마우스 위치를 중심으로 노란 빛이 퍼지는 배경을 만든다.
+    // 마우스 위치를 중심으로 노란 빛이 퍼지는 배경을 만든다.
     glass.style.background = `
       radial-gradient(
         circle at ${x}px ${y}px,
@@ -321,70 +321,66 @@ document.querySelectorAll('.feature_card').forEach((card)=>{
     `;
   });
 
-  card.addEventListener('mouseleave',()=>{
+  card.addEventListener('mouseleave', () => {
     glass.style.background = 'transparent';
   })
-
-
 });
-//카드 안족 레이어를 마우스 위치에 맞춰 살짝 길울인다.
-//rotatX rotateY만 바꾸기
 
-document.querySelectorAll('.tit_card').forEach((card)=>{
+//카드 안쪽 레이어를 마우스 위치에 맞춰 살짝 기울인다
+//rotateX rotateY만 바꾸기
+document.querySelectorAll('.tit_card').forEach((card) => {
   const layer = card.querySelector('.tit_layer');
-  //레이어가 없으면 카드 건너뛴다
-  if(!layer) return;
+  //레이어가 없으면 이 카드는 건너뛴다
+  if (!layer) return;
 
-  //카드 위에서 마우스를 움직일때 기울기 
-  card.addEventListener('mousemone',(e)=>{
+  //카드 위에서 마우스를 움직일때 기울기 값을 계산
+  card.addEventListener('mousemove', (e) => {
     const rect = card.getBoundingClientRect();
-
-    //카드안에서 마우스가 가로로 몇퍼 위치인지 계산
-
+    //카드안에서 마우스가 가로로 몇퍼센트 위치인지 계산
     const px = (e.clientX - rect.left) / rect.width;
-    const px = (e.clientY - rect.top) / rect.height;
-    //위아래 위치를 rotatX각도로 바꿈
+    const py = (e.clientY - rect.top) / rect.height;
+    //위아래 위치를 rotateX 각도로 바꾼다
     const rx = (py - 0.5) * -15;
-    const ry = (px - 0.5) *22;
+    const ry = (px - 0.5) * 22;
 
-    //계산한 각도를 안쪽 레이어  트렌스폼에 적용
-    layer.style.transform = `translateZ(0) rotateX(deg) rotateY(${ry}deg)`;
-    card.addEventListener('mpuseleave',()=>{
-layer.style.transform = `translateZ(0) rotateX(0deg) rotateY(0deg)`;
+    //계산한 각도를 안쪽 레이어 transform에 적용
+    layer.style.transform = `translateZ(0) rotateX(${rx}deg) rotateY(${ry}deg)`;
+
+    card.addEventListener('mouseleave', () => {
+      layer.style.transform = `translateZ(0) rotateX(0deg) rotateY(0deg)`;
     })
   })
 });
 
-const sticyBox = document.querySelector('.sticky_box');
-const processCards =  gsap.utils.toArray('.project_all .card');
-processCards.forEach((card,index)=>{
-  //카드순서에 맞는 이미지파일 경로를 만든다.
-  //인스타블로그등 이미지를 줄 때 sns01 02 03 등할 때
-  //차라리 뭉텅이로 순서 해서 하는게 좋음
-  const imgUrl = `asset/info${index+1}.png`;
 
-  //카드가 화면 중앙에 들러오는 순간 감지
+const stickyBox = document.querySelector('.sticky_box');
+const processCards = gsap.utils.toArray('.projects_all .card');
+
+processCards.forEach((card, index) => {
+  //카드 순서에 맞는 이미지 파일 경로를 만든다
+  const imgUrl = `asset/info${index + 1}.png`;
+
+  //카드가 화면 중앙에 들어오는 순간 감지
   ScrollTrigger.create({
-    trigger:card,
-    start:'top center',
-    end : 'bottom center',
-    onEnter:()=>changeBg(ImageUrl),
-    onEnterBack:()=>changeBg(ImageUrl),
+    trigger: card,
+    start: 'top center',
+    end: 'bottom center',
+    onEnter:()=>changeBg(imgUrl),
+    onEnterBack:()=>changeBg(imgUrl),
   });
 })
 
-//스티키 박스에 이미지를 바로 바꾸면 딱딱하게 바꿔서 ㅈ살짝 줄였다가 다시 커지면서 교체
-function changeBg(imgUrl){
+//sticky 박스의 이미지를 바로 바꾸면 딱닥해서 살짝 줄였다가 다시 키우며 교체
+function changeBg(imgUrl) {
+  if (!stickyBox) return;
 
-  if(!sticyBox) return;
-
-  gsap.to(sticyBox,{
-    opacity0.72,
-    scale:0.98,
-    duration:0.2,
-    onComplete : () =>{
-      stocky.style.backgroundImage = `url(${imgUrl})`;
-      gasp.to(sticyBox, {})
+  gsap.to(stickyBox, {
+    opacity: 0.72,
+    scale: 0.98,
+    duration: 0.2,
+    onComplete: () => {
+      stickyBox.style.backgroundImage = `url(${imgUrl})`;
+      gsap.to(stickyBox, { opacity: 1, scale: 1, duration: 0.45 });
     }
   })
 }

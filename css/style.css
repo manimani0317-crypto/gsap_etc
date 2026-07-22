@@ -60,7 +60,7 @@ body {
   --en-lang1: 'Roboto', sans-serif;
   --en-lang2: 'DM Serif Text', serif;
   --en-lang3: 'Merriweather', serif;
-  --color-white-12:rgba(255,255,255,0.12);
+  --color-white-12: rgba(255, 255, 255, 0.12);
 }
 
 .title_gra {
@@ -350,7 +350,6 @@ h1 a img {
 }
 
 .feature_card {
-  
   flex: 1 1 calc((100% - 32px)/3);
   min-width: 0;
   border-radius: var(--round);
@@ -470,7 +469,7 @@ h1 a img {
   margin-top: 6px;
   line-height: 1.35;
   max-width: 33ch;
-  color: rgba(255,255,255,.68);
+  color: rgba(255, 255, 255, .68);
   font-size: 0.95rem;
 }
 
@@ -486,6 +485,7 @@ h1 a img {
   transition: background 0.4s ease-out;
   mix-blend-mode: screen;
   /* 빛이 섞이듯 표현 */
+
 }
 
 .feature_card .word,
@@ -520,6 +520,7 @@ h1 a img {
   background-blend-mode: screen, normal;
   z-index: 1;
 }
+
 .info_section .wrapper {
   display: flex;
   gap: 30px;
@@ -527,59 +528,61 @@ h1 a img {
   align-items: flex-start;
   padding: 50vh 0;
 }
+
 .info_section .info_tit {
-  width: clamp(300px,40vw,500px);
+  width: clamp(300px, 40vw, 500px);
   min-height: calc(100vh - 120px);
   position: sticky;
   top: 96px;
   align-self: flex-start;
 }
-.info_section .info_tit h2{
-  line-height: 1.1;
-  opacity: 0.5;
 
+.info_section .info_tit h2 {
+  line-height: 1.1;
+  /* opacity: 0.5; */
 }
-.section_lead{
+
+.section_lead {
   min-width: 440px;
   margin: 20px 0 24px;
   color: var(--ink);
-  font-weight: 100;
   font-size: 0.8rem;
-  opacity: 0.5;
+  font-weight: 100;
+  /* opacity: 0.5; */
 }
 
-.stiky_box{
+.sticky_box {
   width: 100%;
   height: 42vh;
   background-size: cover;
   background-position: center;
   border-radius: 24px;
-  color: #03423d;
+  box-shadow: 0 24px 70px rgba(108, 80, 27, .08);
 }
 
-.info_section .project_all {
+.info_section .projects_all {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 20vh;
 }
-.info_section .project_all .card{
+
+.info_section .projects_all .card {
   position: relative;
-
-  
-  background-color: #8b5cf6;
+  overflow: hidden;
+  background-color: #101827;
   background-image:
-    linear-gradient(148deg, rgba(255,255,255,.62), transparent 22%, rgba(255,255,255,.18) 42%, transparent 68%),
-    radial-gradient(circle at 16% 20%, color-mix(in oklch, #fb7185 82%, white) 0 16%, transparent 36%),
-    conic-gradient(from 148deg at 62% 46%, #fb7185, color-mix(in oklch, #fb7185 40%, #8b5cf6), #8b5cf6, color-mix(in oklch, #8b5cf6 42%, white), #fb7185);
-  background-blend-mode: screen, lighten, normal;
-
-min-height: 52vh;
-border-radius: 22px;
-padding: clamp(28px, 4vw, 54px);
-flex-direction: column;
-justify-content: flex-end;
-
+    radial-gradient(circle at 18% 26%, color-mix(in oklch, #ff8a1e 88%, white) 0 14%, transparent 38%),
+    radial-gradient(circle at 82% 22%, color-mix(in oklch, #101827 74%, white) 0 16%, transparent 42%),
+    repeating-radial-gradient(circle at 52% 58%, transparent 0 25px, color-mix(in oklch, #ff8a1e 34%, transparent) 26px 27px, transparent 28px 50px),
+    conic-gradient(from 118deg at 50% 50%, #ff8a1e, #101827, color-mix(in oklch, #ff8a1e 42%, #101827), #ff8a1e);
+  background-blend-mode: screen, lighten, overlay, normal;
+  min-height: 52vh;
+  border-radius: 22px;
+  padding: clamp(28px, 4vw, 54px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 .projects_all .card::before {
   content: '';
